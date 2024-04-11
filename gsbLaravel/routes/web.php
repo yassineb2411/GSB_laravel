@@ -48,24 +48,22 @@ Route::post('sauvegarderFrais',[
         'uses'=>'gererFraisController@sauvegarderFrais'
 ]);
 
-        /*-------------------- Use case gérer les visiteurs ---------------------------*/
+        /*-------------------- Use case gérer les visiteurs - listing ---------------------------*/
 
-Route::get('listeVisiteurs',[ 
-        'as'=>'chemin_listeVisiteurs', 
-        'uses'=>'gererVisiteursController@listeVisiteurs' 
+Route::get('voirVisiteur',[
+        'as'=>'chemin_voirVisiteur',
+        'uses'=>'gererVisiteurController@voirVisiteur'
 ]);
 
-Route::get('edit/{id}','gererVisiteursController@edit');
+        /*-------------------- Use case gérer les visiteurs - modifier ---------------------------*/
 
-Route::get('edit{id}',[
-        'as'=>'chemin_modifier',
-        'uses'=>'gererVisiteursController@edit'
-]);
+Route::get('/update-etudiant/{id}', 'App\Http\Controllers\gererVisiteurController@update_etudiant')->name('update');
 
-Route::post('saveEdit/{id}',[
-        'as' => 'chemin_saveVisiteur',
-        'uses' => 'gererVisiteursController@saveEdit'
-]);
+Route::post('/update/traitement', 'App\Http\Controllers\gererVisiteurController@updateTraitement')->name('updateTraitement');
+
+Route::get('/listevisiteur', 'App\Http\Controllers\gererVisiteurController@voirVisiteur')->name('listevisiteur');
+
+
 
 
 

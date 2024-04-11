@@ -7,7 +7,7 @@ class PdoGsb{
         private static $bdd;
         private static $user;
         private static $mdp;
-        private  $monPdo;
+        private $monPdo;
 	
 /**
  * crée l'instance de PDO qui sera sollicitée
@@ -213,21 +213,41 @@ class PdoGsb{
 
 	// Mission 2a
 
-	public function getLesVisiteurs(){
-		$req = "SELECT * FROM visiteur";
-		$resultats = $this->monPdo->prepare($req);
-		$resultats->execute();
-    	$visiteurs = $resultats->fetchAll(PDO::FETCH_ASSOC);
-    	return $visiteurs;
+	//listing des visiteurs
+
+	public function afficherVisiteurs(){
+		$req = "SELECT id, nom, prenom, login, mdp, adresse, cp, ville, dateEmbauche FROM visiteur";
+		$res = $this->monPdo->prepare($req);
+		$res->execute();
+		$laLigne = $res->fetchAll(PDO::FETCH_ASSOC);
+		return $laLigne;
 	}
 
-	public function afficherLeVisiteur($id)
-	{
-		$req = "SELECT id, nom, prenom, login, mdp, adresse, cp, ville, dateEmbauche FROM visiteur WHERE id = :id";
+	//selection des visiteurs par l'id
+
+	public function getVisiteurById($id){
+		$req = "SELECT * FROM visiteur WHERE id = :id";
 		$res = $this->monPdo->prepare($req);
 		$res->bindParam(':id', $id, PDO::PARAM_STR); 
 		$res->execute();
 		$laLigne = $res->fetch(PDO::FETCH_ASSOC);
 		return $laLigne;
+	}
+
+	//modification des visiteurs
+
+	public function updateVisiteur($visiteur) {
+		$req = "UPDATE visiteur SET nom = :nom, prenom = :prenom, adresse = :adresse, cp = :cp, ville = :ville, dateEmbauche = :dateEmbauche WHERE id = :id";
+		
+		$res = $this->monPdo->prepare($req);
+		$res->bindParam(':id', $visiteur['id'], PDO::PARAM_STR);
+		$res->bindParam(':nom', $visiteur['nom'], PDO::PARAM_STR);
+		$res->bindParam(':prenom', $visiteur['prenom'], PDO::PARAM_STR);
+		$res->bindParam(':adresse', $visiteur['adresse'], PDO::PARAM_STR);
+		$res->bindParam(':cp', $visiteur['cp'], PDO::PARAM_STR);
+		$res->bindParam(':ville', $visiteur['ville'], PDO::PARAM_STR);
+		$res->bindParam(':dateEmbauche', $visiteur['dateEmbauche'], PDO::PARAM_STR);
+	
+		$res->execute();
 	}
 }
