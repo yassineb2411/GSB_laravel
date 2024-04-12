@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use PdoGsb;
 use MyDate;
+use Dompdf\Dompdf;
+
 class gererVisiteurController extends Controller
 {
     function voirVisiteur() {
@@ -11,7 +13,7 @@ class gererVisiteurController extends Controller
             $visiteur = session('visiteur');
             $lesVisiteurs = PdoGsb::afficherVisiteurs();
             //$visiteur = session('visiteur');
-            return view('listevisiteur')->with('lesVisiteurs', $lesVisiteurs)->with('visiteur',$visiteur);;
+            return view('listevisiteur')->with('lesVisiteurs', $lesVisiteurs)->with('visiteur',$visiteur);
         } else {
             return redirect()->route('connexion')->with('erreurs', null);
         }
@@ -49,5 +51,48 @@ class gererVisiteurController extends Controller
         }
     }
     
+    public function ajout(){
+        $visiteur = session('visiteur');
+        return view('ajout')->with('visiteur',$visiteur);
+    }
+
+    public function ajoutVisiteur(Request $request) {
+        // Récupérer les données du formulaire
+        $id = $request->input('id');
+        $nom = $request->input('nom');
+        $prenom = $request->input('prenom');
+        $adresse = $request->input('adresse');
+        $cp = $request->input('cp');
+        $ville = $request->input('ville');
+        $dateEmbauche = $request->input('dateEmbauche');
     
+        PdoGsb::ajouterVisiteur($id, $nom, $prenom, $adresse, $cp, $ville, $dateEmbauche);
+    
+        // Rediriger l'utilisateur vers la liste des visiteurs avec un message de succès
+        return redirect()->route('listevisiteur')->with('success', 'Le visiteur a été ajouté avec succès.');
+    }
+
+    public function genererPDF()
+    {
+        $lesVisiteurs = PdoGsb::afficherVisiteurs(); // Renommez la variable ici
+
+        // Créer une instance de Dompdf
+        $dompdf = new Dompdf();
+
+        // Charger la vue PDF avec les visiteurs
+        $html = view('listevisiteur', compact('lesVisiteurs'))->render(); // Utilisez $lesVisiteurs ici
+
+        // Charger le HTML dans Dompdf
+        $dompdf->loadHtml($html);
+
+        // Rendre le PDF
+        $dompdf->render();
+
+        // Télécharger le PDF
+        return $dompdf->stream('liste_visiteurs.pdf');
+
+        $visiteur = session('visiteur');
+        return view('listevisiteur')->with('visiteur',$visiteur);
+    }
+
 }

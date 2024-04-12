@@ -213,17 +213,13 @@ class PdoGsb{
 
 	// Mission 2a
 
-	//listing des visiteurs
-
 	public function afficherVisiteurs(){
-		$req = "SELECT id, nom, prenom, login, mdp, adresse, cp, ville, dateEmbauche FROM visiteur";
+		$req = "SELECT id, nom, prenom, login, mdp, adresse, cp, ville, dateEmbauche FROM visiteur ORDER BY dateEmbauche DESC";
 		$res = $this->monPdo->prepare($req);
 		$res->execute();
 		$laLigne = $res->fetchAll(PDO::FETCH_ASSOC);
 		return $laLigne;
 	}
-
-	//selection des visiteurs par l'id
 
 	public function getVisiteurById($id){
 		$req = "SELECT * FROM visiteur WHERE id = :id";
@@ -233,8 +229,6 @@ class PdoGsb{
 		$laLigne = $res->fetch(PDO::FETCH_ASSOC);
 		return $laLigne;
 	}
-
-	//modification des visiteurs
 
 	public function updateVisiteur($visiteur) {
 		$req = "UPDATE visiteur SET nom = :nom, prenom = :prenom, adresse = :adresse, cp = :cp, ville = :ville, dateEmbauche = :dateEmbauche WHERE id = :id";
@@ -250,4 +244,29 @@ class PdoGsb{
 	
 		$res->execute();
 	}
+
+	public function ajouterVisiteur($id, $nom, $prenom, $adresse, $cp, $ville, $dateEmbauche){	
+		// Utiliser l'identifiant généré pour le login
+		$login = strtolower(substr($nom, 0, 3) . substr($prenom, 0, 3));
+	
+		// Générer un mot de passe aléatoire de 8 caractères
+		$mdp = substr(str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'), 0, 8);
+	
+		// Insérer le nouveau visiteur dans la base de données
+		$req = "INSERT INTO visiteur (id, nom, prenom, login, mdp, adresse, cp, ville, dateEmbauche) 
+				VALUES (:id, :nom, :prenom, :login, :mdp, :adresse, :cp, :ville, :dateEmbauche)";
+	
+		$res = $this->monPdo->prepare($req);
+		$res->bindParam(':id', $id, PDO::PARAM_STR);
+		$res->bindParam(':nom', $nom, PDO::PARAM_STR);
+		$res->bindParam(':prenom', $prenom, PDO::PARAM_STR);
+		$res->bindParam(':login', $login, PDO::PARAM_STR);
+		$res->bindParam(':mdp', $mdp, PDO::PARAM_STR);
+		$res->bindParam(':adresse', $adresse, PDO::PARAM_STR);
+		$res->bindParam(':cp', $cp, PDO::PARAM_STR);
+		$res->bindParam(':ville', $ville, PDO::PARAM_STR);
+		$res->bindParam(':dateEmbauche', $dateEmbauche, PDO::PARAM_STR);
+	
+		$res->execute();
+	}			
 }

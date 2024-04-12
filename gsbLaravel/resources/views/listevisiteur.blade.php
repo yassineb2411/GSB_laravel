@@ -7,6 +7,7 @@
             <tr>
                 <td>Nom</td>
                 <td>Prénom</td>
+                <td colspan="2">Actions</td>
             </tr>
             @foreach($lesVisiteurs as $unVisiteur)
             <tr>
@@ -17,7 +18,8 @@
             </tr>
             @endforeach
         </table>
-        <button>Ajouter</button>
+        <button><a href="{{ route('ajout') }}">Ajouter</a></button>
+        <button><a href="{{ route('visiteurs.pdf') }}">Générer PDF</a></button>
     </div>
 
     <style>

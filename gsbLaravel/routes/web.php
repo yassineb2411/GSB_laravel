@@ -63,6 +63,17 @@ Route::post('/update/traitement', 'App\Http\Controllers\gererVisiteurController@
 
 Route::get('/listevisiteur', 'App\Http\Controllers\gererVisiteurController@voirVisiteur')->name('listevisiteur');
 
+        /*-------------------- Use case gérer les visiteurs - Ajouter ---------------------------*/
+
+Route::get('/ajout', 'App\Http\Controllers\gererVisiteurController@ajout')->name('ajout');
+
+Route::post('/ajout-visiteur', 'App\Http\Controllers\gererVisiteurController@ajoutVisiteur')->name('ajout.visiteur');
+
+        /*-------------------- Use case gérer les visiteurs - Créer PDF ---------------------------*/
+
+Route::get('/visiteurs/pdf', 'App\Http\Controllers\gererVisiteurController@genererPDF')->name('visiteurs.pdf');
+
+
 
 
 
