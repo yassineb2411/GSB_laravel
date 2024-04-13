@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use PdoGsb;
 use MyDate;
-use Dompdf\Dompdf;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class gererVisiteurController extends Controller
 {
@@ -74,25 +74,11 @@ class gererVisiteurController extends Controller
 
     public function genererPDF()
     {
-        $lesVisiteurs = PdoGsb::afficherVisiteurs(); // Renommez la variable ici
-
-        // Créer une instance de Dompdf
-        $dompdf = new Dompdf();
-
-        // Charger la vue PDF avec les visiteurs
-        $html = view('listevisiteur', compact('lesVisiteurs'))->render(); // Utilisez $lesVisiteurs ici
-
-        // Charger le HTML dans Dompdf
-        $dompdf->loadHtml($html);
-
-        // Rendre le PDF
-        $dompdf->render();
-
-        // Télécharger le PDF
-        return $dompdf->stream('liste_visiteurs.pdf');
-
-        $visiteur = session('visiteur');
-        return view('listevisiteur')->with('visiteur',$visiteur);
+        $lesVisiteurs = PdoGsb::afficherVisiteursPDF();
+        $pdf = Pdf::loadView('pdf.listevisiteurs', [
+            'lesVisiteurs' => $lesVisiteurs
+        ]);
+        return $pdf->download('liste_des_visiteurs_gsb.pdf');
     }
 
 }

@@ -268,5 +268,13 @@ class PdoGsb{
 		$res->bindParam(':dateEmbauche', $dateEmbauche, PDO::PARAM_STR);
 	
 		$res->execute();
-	}			
+	}		
+	
+	public function afficherVisiteursPDF(){
+		$req = "SELECT nom, prenom, dateEmbauche FROM visiteur ORDER BY dateEmbauche DESC";
+		$res = $this->monPdo->prepare($req);
+		$res->execute();
+		$laLigne = $res->fetchAll(PDO::FETCH_ASSOC);
+		return $laLigne;
+	}
 }
