@@ -14,42 +14,42 @@
 
                     <div>
                         <label for="Nom">Nom</label>
-                        <input type="text" id="Nom" name="nom" value="{{ $visiteur['nom'] }}">
+                        <input type="text" id="Nom" name="nom" value="{{ $visiteur['nom'] }}" oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')" pattern="[A-Za-z]+" required>
                     </div>
 
                     <br>
 
                     <div>
                         <label for="Nom">Prénom</label>
-                        <input type="text" id="Prenom" name="prenom" value="{{ $visiteur['prenom'] }}">
+                        <input type="text" id="Prenom" name="prenom" value="{{ $visiteur['prenom'] }}" oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')" pattern="[A-Za-z]+" required>
                     </div>
 
                     <br>
 
                     <div>
                         <label for="Adresse">Adresse</label>
-                        <input type="text" id="Adresse" name="adresse" value="{{ $visiteur['adresse'] }}">
+                        <input type="text" id="Adresse" name="adresse" value="{{ $visiteur['adresse'] }}" required>
                     </div>
 
                     <br>
 
                     <div>
                         <label for="CodePostal">Code Postal</label>
-                        <input type="text" id="CodePostal" name="codePostal" value="{{ $visiteur['cp'] }}">
+                        <input type="number" id="CodePostal" name="codePostal" value="{{ $visiteur['cp'] }}" placeholder="exemple = 94600" required>
                     </div>
 
                     <br>
 
                     <div>
                         <label for="Ville">Ville</label>
-                        <input type="text" id="Ville" name="ville" value="{{ $visiteur['ville'] }}">
+                        <input type="text" id="Ville" name="ville" value="{{ $visiteur['ville'] }}" oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')" pattern="[A-Za-z]+" required>
                     </div>
 
                     <br>
 
                     <div>
                         <label for="DateEmbauche">Date d'embauche</label>
-                        <input type="text" id="DateEmbauche" name="dateEmbauche" value="{{ $visiteur['dateEmbauche'] }}">
+                        <input type="text" id="DateEmbauche" name="dateEmbauche" value="{{ $visiteur['dateEmbauche'] }}" placeholder="AAAA/MM/JJ" required>
                     </div>
                     </p>
             </div>
