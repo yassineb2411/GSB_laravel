@@ -14,7 +14,6 @@
                 <td>{{$unVisiteur['nom']}}</td>
                 <td>{{$unVisiteur['prenom']}}</td>
                 <td><button><a href="{{ route('update', ['id' => $unVisiteur['id']]) }}">Modifier</a></button></td>
-                <td><button>supprimer</button></td>
             </tr>
             @endforeach
         </table>
