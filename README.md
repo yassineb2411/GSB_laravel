@@ -1,7 +1,7 @@
 
 
 
-# GSB WinForms
+# GSB Laravel
 
 J'ai réalisé ce projet avec un camarade de classe en milieu de deuxième année de BTS SIO dans le cadre de mes études. L'application Web développée en PHP avec le Framework Laravel consiste en la gestion des visiteurs du laboratoire (CRUD).
 
